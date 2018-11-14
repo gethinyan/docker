@@ -38,6 +38,7 @@ egrep "^$user" /etc/passwd >& /dev/null
 if [ $? -ne 0 ]
 then
     useradd -u 1000 -g 1000 $user
+fi
 
 DIRNAME="orp"${ORP}
 ORP_PATH="/home/work/orp"${ORP}
