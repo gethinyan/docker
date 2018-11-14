@@ -59,7 +59,7 @@ else
     mkdir -p $ORP_PATH && \
     cd $ORP_PATH && \
     git clone https://github.com/gethinyan/docker.git && \
-    cp -r ${ORP_PATH}/docker/configure/debug ${ORP_PATH}/docker/nginx ${ORP_PATH}/docker/configure/php . && \
+    cp -r ${ORP_PATH}/docker/configure/debug ${ORP_PATH}/docker/configure/nginx ${ORP_PATH}/docker/configure/php . && \
     rm -rf ${ORP_PATH}/docker && \
     if [ "testing" = $ENV ]; then sed -i "s/development/testing/g" ${ORP_PATH}/nginx/conf/servers/work.conf; fi && \
     docker run -it \
