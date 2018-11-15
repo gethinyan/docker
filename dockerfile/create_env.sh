@@ -76,7 +76,7 @@ else
         -v ${ORP_PATH}/php/etc:/home/work/orp/php/etc \
         -v ${ORP_PATH}/php/lib:/home/work/orp/php/lib \
         --name $DIRNAME \
-        -d registry.cn-hangzhou.aliyuncs.com/xkd-docker-registry/xkd-docker-registry:v1.0-dev-2018-07-23 /bin/bash && \
+        -d registry.cn-hongkong.aliyuncs.com/gethin/my-centos:v1.0 /bin/bash && \
     chown -R work:work $ORP_PATH && \
     docker exec $DIRNAME sh /home/work/orp/entrypoint.sh && \
     exit 0
