@@ -9,7 +9,7 @@ RUN \
 
 RUN \
   service sshd start && \
-  groupadd -g 1000 work \
+  groupadd -g 1000 work && \
   useradd work -u 1000 -g 1000 && \
   echo hicoffice | passwd --stdin work
 
