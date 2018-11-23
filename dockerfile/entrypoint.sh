@@ -1,4 +1,5 @@
 #/bin/bash
+chown -R work:work /home/work/ && \
 service sshd start && \
 su - work <<EOF
 /home/work/orp/nginx/load_nginx.sh start
