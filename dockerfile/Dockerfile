@@ -5,14 +5,10 @@ RUN \
   yum install epel-release -y && \
   yum update -y && \
   yum install openssh-server openssh-clients -y && \
-  yum install wget vim lsof net-tools -y
-
-RUN \
+  yum install wget vim lsof net-tools -y && \
   groupadd -g 1000 work && \
   useradd work -u 1000 -g 1000 && \
-  echo hicoffice | passwd --stdin work
-
-RUN \
+  echo hicoffice | passwd --stdin work && \
   yum install gcc gcc-c++ install pcre pcre-devel openssl openssl-devel zlib zlib-devel -y && \
   mkdir -p /home/work/orp /home/work/orp/nginx/logs /home/work/orp/static /home/work/orp/webroot /home/work/source && \
   cd /home/work/source && wget https://raw.githubusercontent.com/gethinyan/docker/master/dockerfile/nginx-1.14.0.tar.gz && \
@@ -30,9 +26,7 @@ RUN \
     --with-http_sub_module \
     --add-module=../nginx-http-concat-1.2.2 \
     --add-module=../headers-more-nginx-module-0.33 && \
-  make && make install
-
-RUN \
+  make && make install && \
   yum install curl-devel libpng libpng-devel libjpeg gd gd-devel libxml2 libxml2-devel -y && \
   cd /home/work/source && wget https://raw.githubusercontent.com/gethinyan/docker/master/dockerfile/php-7.2.8.tar.gz && \
   tar -xvf php-7.2.8.tar.gz && cd php-7.2.8 && \
@@ -57,17 +51,16 @@ RUN \
     --with-pdo-mysql=mysqlnd && \
   make && make install && \
   cp /home/work/orp/php/etc/php-fpm.conf.default /home/work/orp/php/etc/php-fpm.conf && \
-  cp /home/work/orp/php/etc/php-fpm.d/www.conf.default /home/work/orp/php/etc/php-fpm.d/www.conf
-
-RUN \
+  cp /home/work/orp/php/etc/php-fpm.d/www.conf.default /home/work/orp/php/etc/php-fpm.d/www.conf && \
+  rm -rf /home/work/source/* && \
   cd /home/work/orp && \
   wget https://raw.githubusercontent.com/gethinyan/docker/master/dockerfile/entrypoint.sh && \
-  chmod +x entrypoint.sh
-
-RUN \
+  chmod +x entrypoint.sh && \
   cd /home/work/orp/nginx && \
   wget https://raw.githubusercontent.com/gethinyan/docker/master/dockerfile/load_nginx.sh && \
-  chmod +x load_nginx.sh
+  chmod +x load_nginx.sh && \
+  rm -rf /home/work/source/* && \
+  chown work:work /home/work -R
 
 VOLUME /home/work/orp/nginx/conf
 VOLUME /home/work/orp/nginx/logs
@@ -77,13 +70,9 @@ VOLUME /home/work/orp/logs
 VOLUME /home/work/orp/php/etc
 VOLUME /home/work/orp/php/lib
 
-RUN \
-  rm -rf /home/work/source/* && \
-  chown work:work /home/work -R
-
 EXPOSE 8080
 EXPOSE 8081
 EXPOSE 8082
 EXPOSE 8083
 
-ENTRYPOINT ["/bin/bash"]
+ENTRYPOINT ["/home/work/orp/entrypoint.sh"]
